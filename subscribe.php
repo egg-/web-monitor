@@ -68,7 +68,7 @@ function update_subscribe() {
 	$id = hz_env_param('id', '');
 	isset($data['id']) and $id = $data['id'];
 
-	$id = hz_env_param('id', '') or out_error('not exist id parameter.');
+	$id or out_error('not exist id parameter.');
 
 	if ($data && isset($data['uris'])) {
 		$uris = $data['uris'];
