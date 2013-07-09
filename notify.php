@@ -60,7 +60,7 @@ function check_events($uris, $request_time) {
 
 	clearstatcache();
 	foreach ($uris as $uri) {
-		$filename = md5($uri);
+		$filename = md5($uri).'.db';
 		$mtime = $cache->mtime($filename);
 		
 		if ($mtime > $request_time) {

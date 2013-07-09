@@ -27,7 +27,7 @@ function update() {
 	empty($data['uri']) and 
 	empty($data['data']) and out_error('not exist data parameter.');
 
-	$filename = md5($data['uri']);
+	$filename = md5($data['uri']).'.db';
 
 	$cache->save($filename, json_encode($data['data']), false);
 
