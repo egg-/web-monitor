@@ -58,14 +58,17 @@ function retrieve_subscribe() {
 
 }
 
-function update_subscribe($id) {
+function update_subscribe() {
 	global $cache, $subscribes;
-
-	$id = hz_env_param('id', '') or hz_out_error(json_encode(array('message'=>'not exist id parameter.')), 'json', 400);
 
 	$data = file_get_contents("php://input");
 	$data = json_decode($data, true) or hz_out_error(json_encode(array('message'=>'invalid json parameter.')), 'json', 400);
 	$uris = array();
+	
+	$id = hz_env_param('id', '');
+	isset($data['id']) and $id = $data['id'];
+
+	$id or hz_out_error(json_encode(array('message'=>'not exist id parameter.')), 'json', 400);
 
 	if ($data && isset($data['uris'])) {
 		$uris = $data['uris'];
