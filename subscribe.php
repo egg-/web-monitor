@@ -47,7 +47,7 @@ switch (strtoupper($method)) {
 function retrieve_subscribe() {
 	global $cache, $subscribes;
 
-	$id = hz_env_param('id', '') or hz_out_error(json_encode(array('message'=>'not exist id parameter.')), 'json', 400);
+	$id = hz_env_param('id', '') or out_error('not exist id parameter.');
 	isset($subscribes[$id]) or $subscribes[$id] = array();
 
 	return hz_out(json_encode(array(
@@ -62,13 +62,13 @@ function update_subscribe() {
 	global $cache, $subscribes;
 
 	$data = file_get_contents("php://input");
-	$data = json_decode($data, true) or hz_out_error(json_encode(array('message'=>'invalid json parameter.')), 'json', 400);
+	$data = json_decode($data, true) or out_error('invalid json parameter.');
 	$uris = array();
 	
 	$id = hz_env_param('id', '');
 	isset($data['id']) and $id = $data['id'];
 
-	$id or hz_out_error(json_encode(array('message'=>'not exist id parameter.')), 'json', 400);
+	$id = hz_env_param('id', '') or out_error('not exist id parameter.');
 
 	if ($data && isset($data['uris'])) {
 		$uris = $data['uris'];
@@ -87,7 +87,7 @@ function create_subscribe() {
 	global $cache, $subscribes;
 
 	$data = file_get_contents("php://input");
-	$data = json_decode($data, true) or hz_out_error(json_encode(array('message'=>'invalid json parameter.')), 'json', 400);
+	$data = json_decode($data, true) or out_error('invalid json parameter.');
 	$uris = array();
 
 	$id = generate_subscribe_id();
@@ -107,7 +107,7 @@ function create_subscribe() {
 function delete_subscribe() {
 	global $cache, $subscribes;
 
-	$id = hz_env_param('id', '') or hz_out_error(json_encode(array('message'=>'not exist id parameter.')), 'json', 400);
+	$id = hz_env_param('id', '') or out_error('not exist id parameter.');
 
 	unset($subscribes[$id]);
 	$cache->save(DB_SUBSCRIBE, $subscribes);
