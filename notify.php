@@ -39,18 +39,20 @@ function monitor() {
 	set_time_limit(MAX_WAITTIME + 5);
 
 	// waiting for data file is updated.
+	$events = array();
 	while ((time() - $request_time) < MAX_WAITTIME) {
 		$events = check_events($uris, $request_time);
 		if (empty($events) == false) {
-			hz_out(json_encode(array(
-				'id'=>$id,
-				'events'=>$events
-			)), 'json');
-			exit;
+			break;;
 		}
 
 		usleep(USLEEP_TIME);
 	}
+
+	hz_out(json_encode(array(
+		'id'=>$id,
+		'events'=>$events
+	)), 'json');
 }
 
 function check_events($uris, $request_time) {
