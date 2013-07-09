@@ -34,8 +34,12 @@ $monitor.stop();
 
 ## API
 
-- subscribe.php: subscribe an interesting resource
-  - create
+### subscribe.php
+
+subscribe an interesting resource
+
+ - create
+
 ```js
 POST /subscribe.php HTTP/1.1
 Host: dev.monitor
@@ -43,19 +47,24 @@ Cache-Control: no-cache
 
 { "id" : "", "uris": [ { "uri" : "/devices"}, { "uri" : "/accounts"} ] }
 ```
+
  - delete
+
 ```js
 DELETE /subscribe.php?id=4mqyg HTTP/1.1
 Host: dev.monitor
 Cache-Control: no-cache
 ```
  - retrieve
+
 ```js
 GET /subscribe.php?id=4mqyg HTTP/1.1
 Host: dev.monitor
 Cache-Control: no-cache
 ```
+
  - update
+
 ```js
 PUT /subscribe.php HTTP/1.1
 Host: dev.monitor
@@ -63,13 +72,21 @@ Cache-Control: no-cache
 
 { "id" : "4mqyg", "uris": [ { "uri" : "/devices"}, { "uri" : "/accounts"} ] }
 ```
-- notify.php: to get notification
+
+### notify.php
+
+to get notification
+
 ```js
 GET /notify.php?id=4mqyg HTTP/1.1
 Host: dev.monitor
 Cache-Control: no-cache
 ```
-- event.php: update data an interesting resource
+
+### event.php
+
+update data an interesting resource
+
 ```js
 PUT /event.php HTTP/1.1
 Host: dev.monitor
