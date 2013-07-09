@@ -2,7 +2,7 @@
  * $polling
  * https://github.com/egg-
  *
- * @version 0.90
+ * @version 0.91
  *
  * polling module based jQuery
  */
