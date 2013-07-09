@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Javascript Monitoring Sample</title>
+	<link href="css/style.css" rel="stylesheet" type="text/css" />
+	<style type="text/css">
+	fieldset {
+		float: left; 
+	}
+	div.result {
+		width: 400px;
+		height: 200px;
+		overflow: auto;
+		border: 1px solid #888;
+	}
+	textarea { 
+		margin: 0;
+		padding: 0;
+		width: 400px;
+		height: 200px;
+		border: 1px solid #888;
+	}
+	</style>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript" src="js/polling.js"></script>
+	<script type="text/javascript" src="js/monitor.js"></script>
+</head>
+<body>
+	<h1>Javascript Monitor Sample</h1>
+
+	<div class="control">
+		<button class="monitor">Start</button>
+	</div>
+
+	<fieldset>
+		<legend>target</legend>
+		<textarea class="uris">[{ "uri": "/devices" }, { "uri": "/accounts" }]</textarea>
+	</fieldset>
+
+	<fieldset>
+		<legend>result</legend>
+		<div class="result"><ol></ol></div>
+	</fieldset>
+
+	<script type="text/javascript">
+	$(document.body).ready(function() {
+		var update_result = function(txt) {
+			var cal = new Date();
+			var t = function(n) {
+				return n < 10 ? '0' + n : n;
+			};
+
+			$('div.result > ol').prepend('<li>' + [t(cal.getHours()), t(cal.getMinutes()), t(cal.getSeconds())].join(':') + ' - ' + txt + '</li>');
+		};
+
+		$monitor.apis({
+			subscribe: '/subscribe.php',
+			notify: '/notify.php'
+		});
+		$monitor.setting({
+			longpolling: true
+		});
+
+		// start/stop monitor
+		$('button.monitor').click(function() {
+			if ($(this).text() == 'Start') {
+				var uris = $.parseJSON($('textarea.uris').val());
+
+				$monitor.start(uris, {
+					success: function(res, status, xhr) {
+						update_result(xhr.responseText);
+					},
+					complete: function(xhr, status) {
+						console.log(status);
+					}
+				});
+				$(this).text('Stop');
+			} else {
+				$monitor.stop();
+				$(this).text('Start');
+			}
+		});
+	});
+	</script>
+</body>
+</html>
