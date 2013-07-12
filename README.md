@@ -81,6 +81,8 @@ to get notification
 GET /notify.php?id=4mqyg HTTP/1.1
 Host: dev.monitor
 Cache-Control: no-cache
+
+{"id":"2rTW1","events":[{"uri":"\/device\/37aa385a+7XCA3K5OC4PRQ+ec652a5a36c2a15c0884554f1052f09f71dc1b88\/power"},{"uri":"\/account\/tester\/logout"}]}
 ```
 
 ### event.php
@@ -95,5 +97,15 @@ Cache-Control: no-cache
 { "uri" : "/devices", "data": [ { "uri" : "/devices"}, { "uri" : "/accounts"} ] 
 ```
 
+```js
+PUT /event.php HTTP/1.1
+Host: dev.monitor
+Cache-Control: no-cache
+
+{ "id" : "2rTW1", "data": [ { "uri" : "/device/37aa385a+7XCA3K5OC4PRQ+ec652a5a36c2a15c0884554f1052f09f71dc1b88/power" }, { "uri" : "/account/tester/logout" } ] }
+```
+
+
 ## postman
- - http://www.getpostman.com/collections/85fe08948dd82861c123
+ - postman.json
+ - http://www.getpostman.com/collections/691c1a7f2fb128823477

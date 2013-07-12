@@ -24,10 +24,12 @@ function update() {
 	$data = file_get_contents("php://input");
 	$data = json_decode($data, true) or out_error('invalid json parameter.');
 
-	empty($data['uri']) and 
+	$pk = isset($data['id']) ? $data['id'] : (isset($data['uri']) ? $data['uri'] : '');
+
+	$pk == '' and out_error('not exist key parameter.');
 	empty($data['data']) and out_error('not exist data parameter.');
 
-	$filename = md5($data['uri']).'.db';
+	$filename = md5($pk).'.db';
 
 	$cache->save($filename, json_encode($data['data']), false);
 

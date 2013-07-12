@@ -41,7 +41,7 @@ function monitor() {
 	// waiting for data file is updated.
 	$events = array();
 	while ((time() - $request_time) < MAX_WAITTIME) {
-		$events = check_events($uris, $request_time);
+		$events = check_events($id, $uris, $request_time);
 		if (empty($events) == false) {
 			break;;
 		}
@@ -55,7 +55,7 @@ function monitor() {
 	)), 'json');
 }
 
-function check_events($uris, $request_time) {
+function check_events($id, $uris, $request_time) {
 	global $cache;
 
 	$events = array();
@@ -68,6 +68,14 @@ function check_events($uris, $request_time) {
 		if ($mtime > $request_time) {
 			$events[] = array('uri'=>$uri, 'timestamp'=>date('c', $mtime));
 		}
+	}
+	// check customo update
+	$filename = md5($id).'.db';
+	$mtime = $cache->mtime($filename);
+
+	if ($mtime > $request_time) {
+		$data = $cache->load($filename, 0, false);
+		$events = json_decode($data);
 	}
 
 	return $events;
